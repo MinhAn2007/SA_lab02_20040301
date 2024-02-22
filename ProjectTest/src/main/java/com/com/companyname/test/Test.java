@@ -6,4 +6,11 @@ package com.companyname.test;
  * author: An
  */
 public class Test {
+    private final Integer a;
+    private final Integer C;
+
+    public Test(Integer a, Integer c) {
+        this.a = a;
+        C = c;
+    }
 }

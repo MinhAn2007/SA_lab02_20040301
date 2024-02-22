@@ -4,10 +4,8 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.comments.JavadocComment;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
+
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.chunker.ChunkerModel;
@@ -18,6 +16,7 @@ import opennlp.tools.tokenize.SimpleTokenizer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Optional;
 
 public class CommonOperations {
 
@@ -45,8 +44,6 @@ public class CommonOperations {
                     public void visit(ClassOrInterfaceDeclaration n, Object arg) {
                         super.visit(n, arg);
                         String className = n.getNameAsString();
-                        System.out.println(" * " + className);
-
                         if (!isValidClassName(className)) {
                             System.out.println("Invalid class name: " + className);
                         }
@@ -54,7 +51,7 @@ public class CommonOperations {
 
                     }
 
-                    //3. 3. Mỗi lớp phải có một comment mô tả cho lớp. Trong comment đó phải có ngày tạo
+                    //3. Mỗi lớp phải có một comment mô tả cho lớp. Trong comment đó phải có ngày tạo
                     //(created-date) và author.
                     private void checkClassComment(ClassOrInterfaceDeclaration n, String className) {
                         if (!n.getComment().isPresent()) {
@@ -69,19 +66,76 @@ public class CommonOperations {
                             }
                         }
                     }
+
+                    // 4. Các fields trong các class phải là danh từ hoặc cụm danh ngữ và phải bắt đầu bằng một chữ thuong
+                    // 5. Tất cả các hằng số phải là chữ viết hoa và phải nằm trong một interface.
                     @Override
                     public void visit(FieldDeclaration n, Object arg) {
                         super.visit(n, arg);
+
                         n.getVariables().forEach(variable -> {
                             String fieldName = variable.getNameAsString();
-                            if (!isValidFieldName(fieldName) || !isValidClassName(fieldName)) {
-                                System.out.println("Field name doesn't start with lowercase letter: " + fieldName);
+
+                            if (!isValidFieldName(fieldName) || !isValidNameField(fieldName)) {
+                                System.out.println("Field name doesn't start with lowercase letter or is not a valid Field name: " + fieldName);
+                            }
+
+                            if (n.isFinal()) {
+                                Optional<ClassOrInterfaceDeclaration> parentInterface = n.findAncestor(ClassOrInterfaceDeclaration.class);
+                                if (!parentInterface.isPresent() || !parentInterface.get().isInterface()) {
+
+                                    System.out.println("Field is a constant but it's not declared within an interface: " + fieldName);
+                                }
+                                if (!fieldName.equals(fieldName.toUpperCase())) {
+                                    System.out.println("Field name is not all uppercase: " + fieldName);
+                                }
                             }
                         });
+                    }
+                    //6. Tên method phải bắt đầu bằng một động từ và phải là chữ thuong
+                    @Override
+                    public void visit(MethodDeclaration n, Object arg) {
+                        super.visit(n, arg);
+                        String methodName = n.getNameAsString();
+
+                        if (!isValidMethodName(methodName)) {
+                            System.out.println("Method name must start with a lowercase letter and contain only letters and digits: " + methodName);
+                        }
+                        if (!isVerb(methodName)) {
+                            System.out.println("Method name must start with a verb: " + methodName);
+                        }
+                    }
+
+                    private boolean isValidMethodName(String methodName) {
+                        return methodName.matches("[a-z][a-zA-Z0-9]*");
+                    }
+
+                    private boolean isVerb(String methodName) {
+                        String methodRealName = convertCamelCaseToRealName(methodName);
+
+                        SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE;
+                        String[] tokens = tokenizer.tokenize(methodRealName);
+
+                        try (InputStream inputStreamPOSTagger = new FileInputStream("pos/en-pos-maxent.bin")) {
+                            POSModel posModel = new POSModel(inputStreamPOSTagger);
+                            POSTaggerME posTagger = new POSTaggerME(posModel);
+
+                            String[] tags = posTagger.tag(tokens);
+
+                            String firstTag = tags[0];
+                            return firstTag.startsWith("VB");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return false;
+                        }
                     }
 
                     private boolean isValidClassName(String className) {
                         return className.matches("[A-Z][a-zA-Z]*") && isNounPhrase(className);
+                    }
+
+                    private boolean isValidNameField(String className) {
+                        return className.matches("[a-z][a-zA-Z]*") && isNounPhrase(className);
                     }
 
                     private boolean isNounPhrase(String className) {
