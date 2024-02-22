@@ -10,12 +10,15 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    implementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation ("com.github.javaparser:javaparser-core:3.25.8")
+    implementation("com.github.javaparser:javaparser-core:3.25.8")
     implementation("com.google.guava:guava:33.0.0-jre")
-
+    implementation("org.apache.opennlp:opennlp-tools:2.3.2")
+    implementation("ch.qos.logback:logback-classic:1.2.3") // Logback dependency
+    implementation("org.slf4j:slf4j-api:1.7.32") // SLF4J API dependency
 }
+
 
 tasks.test {
     useJUnitPlatform()

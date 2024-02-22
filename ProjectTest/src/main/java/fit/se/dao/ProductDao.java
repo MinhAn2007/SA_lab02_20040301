@@ -1,5 +1,8 @@
 package fit.se.dao;
+/**
+ * Đây là lớp mô tả thông tin Win
 
+ */
 import org.bson.Document;
 
 import com.google.gson.Gson;

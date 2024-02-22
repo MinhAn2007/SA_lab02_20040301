@@ -8,18 +8,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static org.example.CommonOperations.listMethodCalls;
 
 public class Main {
+
     public static void main(String[] args) throws FileNotFoundException {
         File file=new File("D:\\An\\SA_lab02_20040301\\ProjectTest\\src\\main\\java");
-//		JavaParser parser=new JavaParser();
-//		ParseResult<CompilationUnit> cu=parser.parse(file);
-        CompilationUnit cu1= StaticJavaParser.parse(file);
-        List<MethodDeclaration> methods= cu1.findAll(MethodDeclaration.class);
-        for(MethodDeclaration m:methods)
-            System.out.println(m.getNameAsString());
-        listMethodCalls(file);
+
+        CommonOperations projectHandler = new CommonOperations();
+        projectHandler.listPackagesAndClasses(file);
 
     }
 }
