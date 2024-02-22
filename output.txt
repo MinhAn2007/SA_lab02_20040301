@@ -1,0 +1,117 @@
+/com/com/companyname/test/T.java
+================================
+Package match: com.companyname.test
+02:38:13.712 [main] DEBUG opennlp.tools.util.jvm.StringInterners - Using 'opennlp.tools.util.jvm.CHMStringInterner' as String interner implementation.
+Missing comment for class: T
+
+/com/com/companyname/test/Test.java
+===================================
+Package match: com.companyname.test
+Field name doesn't start with lowercase letter or is not a valid Field name: a
+Field is a constant but it's not declared within an interface: a
+Field name is not all uppercase: a
+Field name doesn't start with lowercase letter or is not a valid Field name: C
+Field is a constant but it's not declared within an interface: C
+Invalid class name: Test
+
+/com/com/companyname/test/TestReq5.java
+=======================================
+Package name does not match pattern com.companyname.*: ProjectTest.src.main.java.com.com.companyname.test
+Field name doesn't start with lowercase letter or is not a valid Field name: a
+Field name is not all uppercase: a
+Field name is not all uppercase: b
+Field name doesn't start with lowercase letter or is not a valid Field name: C
+Invalid class name: TestReq5
+Missing comment for class: TestReq5
+
+/com/com/companyname/test/winRate.java
+======================================
+Package match: com.companyname.test
+Method name must start with a lowercase letter and contain only letters and digits: Abvc
+Method name must start with a verb: Abvc
+Method missing description: Abvc
+Invalid class name: winRate
+Missing comment for class: winRate
+
+/fit/se/dao/ProductDao.java
+===========================
+Package name does not match pattern com.companyname.*: fit.se.dao
+Field name doesn't start with lowercase letter or is not a valid Field name: GSON
+Field is a constant but it's not declared within an interface: GSON
+Method name must start with a verb: insertProduct
+Method missing description: insertProduct
+Method missing description: findProductById
+Missing comment for class: ProductDao
+
+/fit/se/dao/StaffDao.java
+=========================
+Package name does not match pattern com.companyname.*: fit.se.dao
+Field name doesn't start with lowercase letter or is not a valid Field name: GSON
+Field is a constant but it's not declared within an interface: GSON
+Method name must start with a verb: insertStaff
+Method missing description: insertStaff
+Method missing description: findStaffById
+Missing comment for class: StaffDao
+
+/fit/se/db/Connection.java
+==========================
+Package name does not match pattern com.companyname.*: fit.se.db
+Missing comment for class: Connection
+
+/fit/se/demo/ConnectionTask.java
+================================
+Package name does not match pattern com.companyname.*: fit.se.demo
+Method name must start with a verb: main
+Method missing description: main
+Missing comment for class: ConnectionTask
+
+/fit/se/demo/FindStaffByIdTask.java
+===================================
+Package name does not match pattern com.companyname.*: fit.se.demo
+Method name must start with a verb: main
+Method missing description: main
+Invalid class name: FindStaffByIdTask
+Missing comment for class: FindStaffByIdTask
+
+/fit/se/demo/InsertProduct.java
+===============================
+Package name does not match pattern com.companyname.*: fit.se.demo
+Method name must start with a verb: main
+Method missing description: main
+Missing comment for class: InsertProduct
+
+/fit/se/demo/Product2Document.java
+==================================
+Package name does not match pattern com.companyname.*: fit.se.demo
+Method name must start with a verb: main
+Method missing description: main
+Invalid class name: Product2Document
+Missing comment for class: Product2Document
+
+/fit/se/demo/Staff2Document.java
+================================
+Package name does not match pattern com.companyname.*: fit.se.demo
+Method name must start with a verb: main
+Method missing description: main
+Invalid class name: Staff2Document
+Missing comment for class: Staff2Document
+
+/fit/se/entity/Phone.java
+=========================
+Package name does not match pattern com.companyname.*: fit.se.entity
+Method name must start with a verb: toString
+Missing comment for class: Phone
+
+/fit/se/entity/Product.java
+===========================
+Package name does not match pattern com.companyname.*: fit.se.entity
+Field name doesn't start with lowercase letter or is not a valid Field name: categoryName
+Method name must start with a verb: toString
+Missing comment for class: Product
+
+/fit/se/entity/Staff.java
+=========================
+Package name does not match pattern com.companyname.*: fit.se.entity
+Method name must start with a verb: toString
+Missing comment for class: Staff
+

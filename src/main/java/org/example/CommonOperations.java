@@ -1,11 +1,13 @@
 package org.example;
 
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.chunker.ChunkerModel;
@@ -93,6 +95,8 @@ public class CommonOperations {
                         });
                     }
                     //6. Tên method phải bắt đầu bằng một động từ và phải là chữ thuong
+                    //7. Mỗi method phải có một ghi chú mô tả cho công việc của method trừ phương thức
+                    //default constructor, accessors/mutators, hashCode, equals, toString.
                     @Override
                     public void visit(MethodDeclaration n, Object arg) {
                         super.visit(n, arg);
@@ -104,6 +108,36 @@ public class CommonOperations {
                         if (!isVerb(methodName)) {
                             System.out.println("Method name must start with a verb: " + methodName);
                         }
+                        if (!isExcludedMethod(n)) {
+                            if (!hasMethodDescription(n)) {
+                                System.out.println("Method missing description: " + n.getName());
+                            }
+                        }
+                    }
+
+                    private boolean isExcludedMethod(MethodDeclaration n) {
+                        String methodName = n.getNameAsString();
+                        return methodName.equals("hashCode") || methodName.equals("equals") || methodName.equals("toString")
+                                || (isGetter(n) || isSetter(n));
+                    }
+
+                    private boolean isGetter(MethodDeclaration n) {
+                        String methodName = n.getNameAsString();
+                        NodeList<Parameter> parameters = n.getParameters();
+
+                        // Check if method starts with "get", has no parameters, and returns a non-void type
+                        return methodName.startsWith("get") && parameters.isEmpty() && !n.getType().asString().equals("void");
+                    }
+
+
+                    private boolean isSetter(MethodDeclaration n) {
+                        String methodName = n.getNameAsString();
+                        return methodName.startsWith("set") && n.getParameters().size() == 1 && n.getType().toString().equals("void");
+                    }
+
+
+                    private boolean hasMethodDescription(MethodDeclaration n) {
+                        return n.getJavadoc().isPresent();
                     }
 
                     private boolean isValidMethodName(String methodName) {
