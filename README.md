@@ -1,4 +1,4 @@
-**# Lab 02 - Kiến trúc và Thiết Kế Phần Mềm
+# Lab 02 - Kiến trúc và Thiết Kế Phần Mềm
 
 ## Yêu cầu đề bài 
 Viết một tool cho phép kiểm tra toàn bộ dự án và xuất ra report cho các trường hợp không thỏa mãn
@@ -92,3 +92,29 @@ Sau khi kiểm tra thành công, chương trình sẽ hiển thị một thông 
 ![img_7.png](img/img_7.png)
 
 ![img_8.png](img/img_8.png)
+
+Các báo cáo sẽ có những dạng sau : 
+
+Package name does not match pattern com.companyname.*: fit.se.dao
+
+Invalid class name: winRate
+
+Missing comment for class: winRate
+
+Missing created-date comment
+
+Missing author comment 
+
+Field name doesn't start with lowercase letter or is not a valid Field name: GSON
+
+Field is a constant but it's not declared within an interface: GSON
+
+Field name is not all uppercase: a
+
+Method name must start with a lowercase letter and contain only letters and digits: Abvc
+
+Method name must start with a verb: insertStaff
+
+Method missing description: explore
+
+
